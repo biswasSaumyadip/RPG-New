@@ -13,9 +13,9 @@ public class Player_IdleState: EntityState
     {
         base.Update();
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (player.moveInput.x == 0)
         {
-            stateMachine.ChangeState(player.moveState);
+            stateMachine.ChangeState(player.idleState);
         }
     }
 }
