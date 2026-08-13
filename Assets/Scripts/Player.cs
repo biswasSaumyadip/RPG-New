@@ -9,10 +9,19 @@ public class Player : MonoBehaviour
     public Player_MoveState moveState { get; private set; }
 
     public Vector2 moveInput { get; private set; }
+    
+    
+    public Rigidbody2D rigidBody { get; private set; }
+    
+    [Header("Movement details")]
+    public float moveSpeed = 5f;
+    
+    private bool facingRight = true;
 
     private void Awake()
     {
         anim = GetComponentInChildren<Animator>();
+        rigidBody = GetComponent<Rigidbody2D>();
         input = new PlayerInputSet();
         stateMachine = new StateMachine();
         idleState = new Player_IdleState(this, stateMachine, "idle");
@@ -39,5 +48,30 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         input.Disable();
+    }
+    
+    public void SetVelocity(float x, float y)
+    {
+        rigidBody.linearVelocity = new Vector2(x, y);
+        HandleFlip(x);
+    }
+
+    private void HandleFlip(float xVelocity)
+    {
+        if (xVelocity > 0 && !facingRight)
+        {
+            Flip();
+        }
+        else if (xVelocity < 0 && facingRight)
+        {
+            Flip();
+        }
+    }
+
+    private void Flip()
+    {
+        // Implementation for flipping the player sprite
+        transform.Rotate(0f, 180f, 0f);
+        facingRight = !facingRight;
     }
 }

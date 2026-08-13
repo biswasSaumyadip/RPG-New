@@ -5,12 +5,14 @@ public abstract class EntityState
     protected string animBoolName;
     protected Player player;
     protected StateMachine stateMachine;
+    protected Rigidbody2D rigidBody;
 
     public EntityState(Player player, StateMachine stateMachine, string animBoolName)
     {
         this.stateMachine = stateMachine;
         this.animBoolName = animBoolName;
         this.player = player;
+        this.rigidBody = player.rigidBody;
     }
 
     public virtual void Enter()
