@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -15,10 +16,17 @@ public class Player : MonoBehaviour
     public Rigidbody2D rigidBody { get; private set; }
     
     [Header("Movement details")]
-    public float moveSpeed = 5f;
-    public float jumpForce = 10f;
+    public float moveSpeed = 4f;
+    public float jumpForce = 5f;
     public Vector2 moveInput { get; private set; }
     private bool facingRight = true;
+    [Range(0, 1)]
+    public float inAirMoveMultiplier = 0.5f;
+    
+    [Header("Collision detection")]
+    [SerializeField] private float groundCheckDistance;
+    [SerializeField] private LayerMask whatIsGround;
+    public bool isGrounded { get; private set; }
 
     private void Awake()
     {
@@ -39,6 +47,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        HandleCollisionDetection();
         stateMachine.updateActiveState();
     }
 
@@ -77,5 +86,16 @@ public class Player : MonoBehaviour
         // Implementation for flipping the player sprite
         transform.Rotate(0f, 180f, 0f);
         facingRight = !facingRight;
+    }
+
+    private void HandleCollisionDetection()
+    {
+        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround );
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, 
+            -groundCheckDistance));
     }
 }

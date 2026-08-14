@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class Player_FallState : Player_AiredState
+public class Player_AiredState : EntityState
 {
-
-    public Player_FallState(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
+    public Player_AiredState(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
     }
 
@@ -22,9 +21,10 @@ public class Player_FallState : Player_AiredState
         // Implement fall logic here
         //if y velocity goes down then player is falling
 
-        if (player.isGrounded)
+        if (player.moveInput.x != 0)
         {
-            stateMachine.ChangeState(player.idleState);
+            player.SetVelocity(player.moveInput.x * (player.moveSpeed * player.inAirMoveMultiplier), rigidBody
+                .linearVelocity.y);
         }
     }
 }
