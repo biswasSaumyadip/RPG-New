@@ -11,7 +11,7 @@ public class Player_GroundedState : EntityState
     {
         base.Update();
 
-        if (rigidBody.linearVelocity.y < 0)
+        if (rigidBody.linearVelocity.y < 0 && !player.isGrounded)
         {
             stateMachine.ChangeState(player.fallState);
         }
