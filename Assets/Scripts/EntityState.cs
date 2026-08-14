@@ -1,11 +1,15 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class EntityState
 {
     protected string animBoolName;
     protected Player player;
     protected StateMachine stateMachine;
+    
+    protected Animator anim;
     protected Rigidbody2D rigidBody;
+    protected PlayerInputSet playerInput;
 
     public EntityState(Player player, StateMachine stateMachine, string animBoolName)
     {
@@ -13,6 +17,8 @@ public abstract class EntityState
         this.animBoolName = animBoolName;
         this.player = player;
         this.rigidBody = player.rigidBody;
+        this.playerInput = player.input;
+        this.anim = player.anim;
     }
 
     public virtual void Enter()
@@ -23,8 +29,8 @@ public abstract class EntityState
 
     public virtual void Update()
     {
-        //we going to run logic of the state here
-        Debug.Log("Updating " + animBoolName);
+        // anim.SetFloat("xVelocity", rigidBody.velocity.x);
+        anim.SetFloat("yVelocity", rigidBody.linearVelocity.y);
     }
 
     public virtual void Exit()
