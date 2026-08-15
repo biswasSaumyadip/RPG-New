@@ -1030,8 +1030,8 @@ Transform:
   m_GameObject: {fileID: 1146997507}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.90697, y: -4.5397797, z: 0}
-  m_LocalScale: {x: 17.649, y: 6.03991, z: 1}
+  m_LocalPosition: {x: 14.67, y: -3.3632, z: 0}
+  m_LocalScale: {x: 17.649, y: 6.913885, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 143332248}
@@ -1085,9 +1085,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Player
   moveSpeed: 8
   jumpForce: 12
+  wallJumpForce: {x: 6, y: 12}
   inAirMoveMultiplier: 0.5
   wallSlideSlowMultiplier: 0.3
-  facingDir: 1
   groundCheckDistance: 1.2
   whatIsGround:
     serializedVersion: 2
