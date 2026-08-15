@@ -11,11 +11,8 @@ public class Player_MoveState : Player_GroundedState
     {
         base.Update();
 
-        if (player.moveInput == Vector2.zero)
-        {
-            stateMachine.ChangeState(player.idleState);
-        }
-        
+        if (player.moveInput == Vector2.zero) stateMachine.ChangeState(player.idleState);
+
         player.SetVelocity(player.moveInput.x * player.moveSpeed, rigidBody.linearVelocity.y);
     }
 }

@@ -1,8 +1,7 @@
-using UnityEngine;
-
 public class Player_WallJumpState : EntityState
 {
-    public Player_WallJumpState(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
+    public Player_WallJumpState(Player player, StateMachine stateMachine, string animBoolName) :
+        base(player, stateMachine, animBoolName)
     {
     }
 
@@ -17,16 +16,8 @@ public class Player_WallJumpState : EntityState
     {
         base.Update();
 
-        if (rigidBody.linearVelocity.y < 0)
-        {
-            stateMachine.ChangeState(player.fallState);
+        if (rigidBody.linearVelocity.y < 0) stateMachine.ChangeState(player.fallState);
 
-        }
-
-        if (player.isWallDetected)
-        {
-            stateMachine.ChangeState(player.wallSlideState);
-
-        }
+        if (player.isWallDetected) stateMachine.ChangeState(player.wallSlideState);
     }
 }

@@ -1088,6 +1088,8 @@ MonoBehaviour:
   wallJumpForce: {x: 6, y: 12}
   inAirMoveMultiplier: 0.5
   wallSlideSlowMultiplier: 0.3
+  dashDuration: 0.05
+  dashSpeed: 20
   groundCheckDistance: 1.2
   whatIsGround:
     serializedVersion: 2

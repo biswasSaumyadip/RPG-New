@@ -1,8 +1,26 @@
-using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Movement details")] public float moveSpeed = 4f;
+
+    public float jumpForce = 5f;
+    public Vector2 wallJumpForce;
+
+    [Range(0, 1)] public float inAirMoveMultiplier = 0.5f;
+
+    [Range(0, 1)] public float wallSlideSlowMultiplier = 0.3f;
+
+    [Space] public float dashDuration = 0.25f;
+
+    public float dashSpeed = 20;
+
+    [Header("Collision detection")] [SerializeField]
+    private float groundCheckDistance;
+
+    [SerializeField] private LayerMask whatIsGround;
+    [SerializeField] private float wallCheckDistance;
+    private bool facingRight = true;
     public Animator anim { get; private set; }
     public PlayerInputSet input { get; private set; }
     private StateMachine stateMachine { get; set; }
@@ -12,29 +30,15 @@ public class Player : MonoBehaviour
     public Player_FallState fallState { get; private set; }
     public Player_WallSlideState wallSlideState { get; private set; }
     public Player_WallJumpState wallJumpState { get; private set; }
+    public Player_DashState dashState { get; private set; }
 
     public Rigidbody2D rigidBody { get; private set; }
-    
-    [Header("Movement details")]
-    public float moveSpeed = 4f;
-    public float jumpForce = 5f;
-    public Vector2 wallJumpForce;
     public Vector2 moveInput { get; private set; }
-    private bool facingRight = true;
-    [Range(0, 1)]
-    public float inAirMoveMultiplier = 0.5f;
-    [Range(0, 1)]
-    public float wallSlideSlowMultiplier = 0.3f;
 
     public int facingDir { get; private set; } = 1;
-    
-    [Header("Collision detection")]
-    [SerializeField] private float groundCheckDistance;
-    [SerializeField] private LayerMask whatIsGround;
-    [SerializeField] private float wallCheckDistance; 
     public bool isGrounded { get; private set; }
     public bool isWallDetected { get; private set; }
-    
+
 
     private void Awake()
     {
@@ -48,6 +52,7 @@ public class Player : MonoBehaviour
         fallState = new Player_FallState(this, stateMachine, "jumpFall");
         wallSlideState = new Player_WallSlideState(this, stateMachine, "wallSlide");
         wallJumpState = new Player_WallJumpState(this, stateMachine, "jumpFall");
+        dashState = new Player_DashState(this, stateMachine, "dash");
     }
 
     private void Start()
@@ -72,7 +77,16 @@ public class Player : MonoBehaviour
     {
         input.Disable();
     }
-    
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position, transform.position + new Vector3(0,
+            -groundCheckDistance));
+
+        Gizmos.DrawLine(transform.position,
+            transform.position + new Vector3(facingDir * wallCheckDistance, 0));
+    }
+
     public void SetVelocity(float x, float y)
     {
         rigidBody.linearVelocity = new Vector2(x, y);
@@ -82,13 +96,8 @@ public class Player : MonoBehaviour
     private void HandleFlip(float xVelocity)
     {
         if (xVelocity > 0 && !facingRight)
-        {
             Flip();
-        }
-        else if (xVelocity < 0 && facingRight)
-        {
-            Flip();
-        }
+        else if (xVelocity < 0 && facingRight) Flip();
     }
 
     public void Flip()
@@ -101,16 +110,10 @@ public class Player : MonoBehaviour
 
     private void HandleCollisionDetection()
     {
-        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround );
-        isWallDetected = Physics2D.Raycast(transform.position, Vector2.right * facingDir, wallCheckDistance, 
-            whatIsGround ); 
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, 
-            -groundCheckDistance));
-        
-        Gizmos.DrawLine(transform.position, transform.position + new Vector3(facingDir * wallCheckDistance, 0));
+        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance,
+            whatIsGround);
+        isWallDetected = Physics2D.Raycast(transform.position, Vector2.right * facingDir,
+            wallCheckDistance,
+            whatIsGround);
     }
 }

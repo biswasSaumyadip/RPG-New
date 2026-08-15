@@ -1,9 +1,7 @@
-using UnityEngine;
-
 public class Player_FallState : Player_AiredState
 {
-
-    public Player_FallState(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
+    public Player_FallState(Player player, StateMachine stateMachine, string animBoolName) : base(
+        player, stateMachine, animBoolName)
     {
     }
 
@@ -14,7 +12,7 @@ public class Player_FallState : Player_AiredState
 
         // Implement fall logic here
     }
-    
+
     public override void Update()
     {
         base.Update();
@@ -22,14 +20,8 @@ public class Player_FallState : Player_AiredState
         // Implement fall logic here
         //if y velocity goes down then player is falling
 
-        if (player.isGrounded)
-        {
-            stateMachine.ChangeState(player.idleState);
-        }
-        
-        if(player.isWallDetected)
-        {
-            stateMachine.ChangeState(player.wallSlideState);
-        }
+        if (player.isGrounded) stateMachine.ChangeState(player.idleState);
+
+        if (player.isWallDetected) stateMachine.ChangeState(player.wallSlideState);
     }
 }
