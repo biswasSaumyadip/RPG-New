@@ -19,7 +19,7 @@ public class Player_BasicAttackState : EntityState
         base.Update();
         HandleAttackVelocity();
         
-        
+        //add change attack
         
         if (triggerCalled) stateMachine.ChangeState(player.idleState);
     }
