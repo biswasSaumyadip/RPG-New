@@ -9,6 +9,7 @@ public abstract class EntityState
     protected Rigidbody2D rigidBody;
     protected StateMachine stateMachine;
     protected float stateTimer;
+    protected bool triggerCalled;
 
     public EntityState(Player player, StateMachine stateMachine, string animBoolName)
     {
@@ -24,6 +25,7 @@ public abstract class EntityState
     {
         //everytime state will change, enter will be called
         player.anim.SetBool(animBoolName, true);
+        triggerCalled = false;
     }
 
     public virtual void Update()
@@ -42,11 +44,15 @@ public abstract class EntityState
         player.anim.SetBool(animBoolName, false);
     }
 
+    public void CallAnimationTrigger()
+    {
+        triggerCalled = true;
+    }
+
     private bool CanDash()
     {
-
-        if(player.isWallDetected) return false;
-        if(stateMachine.currentState == player.dashState) return false;
+        if (player.isWallDetected) return false;
+        if (stateMachine.currentState == player.dashState) return false;
         return true;
     }
 }

@@ -21,6 +21,14 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float wallCheckDistance;
     private bool facingRight = true;
+
+    [Header("Attack Details")] 
+    public Vector2 attackVelocity;
+
+    public float attackVelocityDuration = .1f;
+    
+    
+    
     public Animator anim { get; private set; }
     public PlayerInputSet input { get; private set; }
     private StateMachine stateMachine { get; set; }
@@ -31,6 +39,7 @@ public class Player : MonoBehaviour
     public Player_WallSlideState wallSlideState { get; private set; }
     public Player_WallJumpState wallJumpState { get; private set; }
     public Player_DashState dashState { get; private set; }
+    public Player_BasicAttackState basicAttackState { get; private set; }
 
     public Rigidbody2D rigidBody { get; private set; }
     public Vector2 moveInput { get; private set; }
@@ -53,6 +62,7 @@ public class Player : MonoBehaviour
         wallSlideState = new Player_WallSlideState(this, stateMachine, "wallSlide");
         wallJumpState = new Player_WallJumpState(this, stateMachine, "jumpFall");
         dashState = new Player_DashState(this, stateMachine, "dash");
+        basicAttackState = new Player_BasicAttackState(this, stateMachine, "basicAttack");
     }
 
     private void Start()
@@ -85,6 +95,11 @@ public class Player : MonoBehaviour
 
         Gizmos.DrawLine(transform.position,
             transform.position + new Vector3(facingDir * wallCheckDistance, 0));
+    }
+
+    public void CallAnimationTrigger()
+    {
+        stateMachine.currentState.CallAnimationTrigger();
     }
 
     public void SetVelocity(float x, float y)

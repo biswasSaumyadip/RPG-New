@@ -1,7 +1,7 @@
 public class Player_DashState : EntityState
 {
-    private float originalGravityScale;
     private int dashDir;
+    private float originalGravityScale;
 
     public Player_DashState(Player player, StateMachine stateMachine, string animBoolName) : base(
         player, stateMachine, animBoolName)
