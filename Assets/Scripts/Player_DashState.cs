@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class Player_DashState : EntityState
 {
     private int dashDir;
@@ -12,7 +14,7 @@ public class Player_DashState : EntityState
     {
         base.Enter();
         stateTimer = 1;
-        dashDir = player.facingDir;
+        dashDir = player.moveInput.x != 0 ? (int)Mathf.Sign(player.moveInput.x) : player.facingDir;
         originalGravityScale = rigidBody.gravityScale;
         rigidBody.gravityScale = 0;
     }
