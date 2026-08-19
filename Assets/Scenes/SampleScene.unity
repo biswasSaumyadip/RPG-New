@@ -1108,6 +1108,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   wallCheckDistance: 0.27
+  attackVelocity:
+  - {x: 3, y: 1.5}
+  - {x: 1, y: 2.5}
+  - {x: 2.75, y: 1.75}
+  attackVelocityDuration: 0.1
+  comboResetTime: 1
 --- !u!50 &1369768426
 Rigidbody2D:
   serializedVersion: 5

@@ -23,10 +23,11 @@ public class Player : MonoBehaviour
     private bool facingRight = true;
 
     [Header("Attack Details")] 
-    public Vector2 attackVelocity;
+    public Vector2[] attackVelocity;
 
     public float attackVelocityDuration = .1f;
     
+    public float comboResetTime = 1;
     
     
     public Animator anim { get; private set; }
