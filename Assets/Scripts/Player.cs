@@ -19,9 +19,12 @@ public class Player : MonoBehaviour
     [Header("Collision detection")] [SerializeField]
     private float groundCheckDistance;
 
+    [SerializeField] private Transform primaryWallCheck;
+    [SerializeField] private Transform secondaryWallCheck;
     [SerializeField] private LayerMask whatIsGround;
     [SerializeField] private float wallCheckDistance;
     private bool facingRight = true;
+    
 
     [Header("Attack Details")] 
     public Vector2[] attackVelocity;
@@ -112,8 +115,11 @@ public class Player : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(0,
             -groundCheckDistance));
 
-        Gizmos.DrawLine(transform.position,
-            transform.position + new Vector3(facingDir * wallCheckDistance, 0));
+        Gizmos.DrawLine(primaryWallCheck.position,
+            primaryWallCheck.position + new Vector3(facingDir * wallCheckDistance, 0));
+        
+        Gizmos.DrawLine(secondaryWallCheck.position,
+            secondaryWallCheck.position + new Vector3(facingDir * wallCheckDistance, 0));
     }
 
     public void CallAnimationTrigger()
@@ -146,7 +152,9 @@ public class Player : MonoBehaviour
     {
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance,
             whatIsGround);
-        isWallDetected = Physics2D.Raycast(transform.position, Vector2.right * facingDir,
+        isWallDetected = Physics2D.Raycast(primaryWallCheck.position, Vector2.right * facingDir,
+            wallCheckDistance,
+            whatIsGround) && Physics2D.Raycast(secondaryWallCheck.position, Vector2.right * facingDir,
             wallCheckDistance,
             whatIsGround);
     }
